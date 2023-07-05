@@ -6,6 +6,5 @@
         //public int Age { get; set; }
         public string Name { get; set; }
         public string Department { get; set; }
-        public int Fone_CustomerId { get; set; }
     }
 }
