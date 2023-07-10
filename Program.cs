@@ -13,13 +13,14 @@ using IdentityServer4.Models;
 using IdentityServer4;
 using NuGet.Configuration;
 using Swashbuckle.Swagger;
+using FoneApi.Model;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -31,19 +32,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 #endregion
 
+#region Identity and Jwt Authentication
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
                .AddDefaultUI()
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
-
-//builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("UsersList"));
-builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(opt =>
 {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
+
 .AddJwtBearer(opt =>
 {   // for development only
     opt.RequireHttpsMetadata = false;
@@ -89,86 +89,20 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+#endregion
 
-
-//var IssueUrl = builder.Configuration["IssueUrl"].TrimEnd('/');
-//var applicationUrl = builder.Configuration["ApplicationUrl"].TrimEnd('/');
-
-//var identity = builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-//{
-//    options.IssuerUri = IssueUrl;
-//}).AddDeveloperSigningCredential();
-
-//identity.AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
-//{
-//    options.Clients.Add(new Client()
-//    {
-//        ClientId = "FONEAPI",
-//        AccessTokenType = AccessTokenType.Jwt,
-//        AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-//        AllowAccessTokensViaBrowser = true,
-//        RequireClientSecret = false,
-//        AllowedScopes = {
-//                                IdentityServerConstants.StandardScopes.OpenId, // For UserInfo endpoint.
-//                                IdentityServerConstants.StandardScopes.Profile,
-//                                "FONE"
-//                             },
-//        AllowOfflineAccess = true, // For refresh token.
-//        RefreshTokenExpiration = TokenExpiration.Sliding,
-//        RefreshTokenUsage = TokenUsage.OneTimeOnly,
-//    });
-//    options.Clients.Add(new Client
-//    {
-//        ClientId = "swaggerui",
-//        ClientName = "Swagger UI",
-//        AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-//        AllowAccessTokensViaBrowser = true,
-//        RequireClientSecret = false,
-//        AllowedScopes = {
-//                        "FONE"
-//                    }
-//    });
-//}).AddProfileService<>();
-
-//builder.Services.AddAuthentication()
-//     .AddJwtBearer(jwt =>
-//     {
-//         jwt.Authority = applicationUrl;
-//         jwt.RequireHttpsMetadata = false;
-//         jwt.Audience = "FONE.APIAPI";
-//     })
-//     .AddIdentityServerJwt();
-
-////////////////////////////////////
-
-//builder.Services.AddSwaggerGen(c =>
-//{
-//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "FONE", Version = "v1" });
-//    c.OperationFilter<AuthorizeCheckOperationFilter>();
-//    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-//    {
-//        Type = SecuritySchemeType.OAuth2,
-//        Flows = new OpenApiOAuthFlows
-//        {
-//            Password = new OpenApiOAuthFlow
-//            {
-//                TokenUrl = new Uri("/connect/token", UriKind.Relative)
-//            }
-//        }
-//    });
-//});
-
-///////////////////////////////
-
+#region Mail Configuration
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+#endregion
 
 #region Automapper configuration
 builder.Services.AddAutoMapper(typeof(Program));
 #endregion
 
-
-#region Bussiness logic service
+#region Bussiness logic service Life Span
 builder.Services.AddScoped<IFoneService, FoneService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddTransient<IMailService, MailService>();
 #endregion
 
 
@@ -184,8 +118,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FONE V1");
         c.OAuthClientId("SwaggerApi");
         c.OAuthAppName("Swagger Api Calls");
-
-
     });
 }
 

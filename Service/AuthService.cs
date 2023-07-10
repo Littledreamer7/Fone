@@ -19,9 +19,9 @@ namespace FoneApi.Service
             _configuration = configuration;
         }
 
-        public async Task<User> Login(string email, string password)
+        public async Task<User> Login(string UserName, string password)
         {
-            User? user = await _dbContext.Users.FindAsync(email);
+            User? user = await _dbContext.Users.FindAsync(UserName);
 
             if (user == null)
             {

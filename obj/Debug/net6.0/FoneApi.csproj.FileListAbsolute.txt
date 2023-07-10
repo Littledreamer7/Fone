@@ -310,3 +310,13 @@ C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\IdentityServer4.AspN
 C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\System.Net.Http.Formatting.dll
 C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\System.Web.Http.dll
 C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\Swashbuckle.Core.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\MailKit.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\MimeKit.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\NETCore.MailKit.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\SmtpServer.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\System.Formats.Asn1.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\John\source\repos\FoneApi\FoneApi\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll
